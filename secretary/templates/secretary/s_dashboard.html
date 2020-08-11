@@ -1,0 +1,116 @@
+{% extends 'home/base.html' %}
+
+ <!-- {% block login %}
+          <div align="right" style="display: inline-block;">
+                <a href="{% url 'secretary:login' %}" class="login"><button class="button"> <span class="strong">Login</span></button> </a>
+            </div>
+{% endblock %} -->
+    {% block body %}
+ <br/>
+        {% if user.is_authenticated %}
+
+            <div align="center">
+            <h3>
+            Welcome {{ user.first_name }} {{ user.last_name }}
+            </h3>
+            </div>
+<!-- secretary's Dashboard -->
+
+                {% if user.profile.secretary %}
+                    <div class="list">
+
+                    <a href="{% url 'secretary:upload' %}" class="alist">
+                        <div class="slist">
+                        <span>Register File</span>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'secretary:history' %}" class="alist">
+                        <div class="slist">
+                        <span>History</span>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'home:logout' %}" class="alist">
+                        <div class="slist">
+                        <span>Logout</span>
+                        </div>
+                    </a>
+                </div>
+
+                {% endif %}
+<!-- ssg's Dashboard -->
+<div class="list">
+
+                {% if user.profile.ssg %}
+
+                    <a href="{% url 'secretary:history' %}" class="alist">
+                        <div class="slist">
+                        <span>Unmoved File <button style="background:red; color:white; border:0px; border-radius: 10px;">{{no_of_unread}}</button></span>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'secretary:history' %}" class="alist">
+                        <div class="slist">
+                        <span>History</span>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'home:logout' %}" class="alist">
+                        <div class="slist">
+                        <span>Logout</span>
+                        </div>
+                    </a>
+
+                {% endif %}
+</div>
+<!-- perm sec1's Dashboard -->
+                {% if user.profile.perm_sec %}
+<div class="list">
+                    <a href="{% url 'secretary:history' %}" class="alist">
+                        <div class="slist">
+                        <span>Unmoved File <button style="background:red; color:white; border:0px; border-radius: 10px;">{{perm_sec1_unread}}</button></span>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'secretary:history' %}" class="alist">
+                        <div class="slist">
+                        <span>History</span>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'home:logout' %}" class="alist">
+                        <div class="slist">
+                        <span>Logout</span>
+                        </div>
+                    </a>
+
+</div>
+            {% endif %}
+<!-- perm sec1's Dashboard -->
+
+                {% if user.profile.perm_sec_political %}
+<div class="list">
+                    <a href="{% url 'secretary:history' %}" class="alist">
+                        <div class="slist">
+                        <span>Unmoved File <button style="background:red; color:white; border:0px; border-radius: 10px;">{{perm_sec2_unread}}</button></span>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'secretary:history' %}" class="alist">
+                        <div class="slist">
+                        <span>History</span>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'home:logout' %}" class="alist">
+                        <div class="slist">
+                        <span>Logout</span>
+                        </div>
+                    </a>
+</div>
+                {% endif %}
+
+{% endif %}
+    {% endblock %}
+

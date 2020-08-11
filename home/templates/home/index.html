@@ -1,0 +1,83 @@
+{% extends 'home/base.html' %}
+    {% block body %}
+ <br/>
+{% if user.is_authenticated %}
+    <div align="center">
+            <h3>
+            Welcome {{ user.first_name }} {{ user.last_name }}
+            </h3>
+        </div>
+{% endif %}
+
+
+<div class="list">
+    {% if user.is_authenticated %}
+    {% if not user.profile.secretary %}
+        <a href="{% url 'secretary:history' %}" class="alist">
+                        <div class="slist">
+                        <span>Unmoved File <button style="background:red; color:white; border:0px; border-radius: 10px;">{{perm_sec2_unread}}</button></span>
+                        </div>
+                    </a>
+
+        <a href="{% url 'secretary:history' %}" class="alist">
+                        <div class="slist">
+                        <span>History</span>
+                        </div>
+                    </a>
+
+        <a href="{% url 'home:logout' %}" class="alist">
+                        <div class="slist">
+                        <span>Logout</span>
+                        </div>
+                    </a>
+        {% else %}
+          <div class="list">
+
+                    <a href="{% url 'secretary:upload' %}" class="alist">
+                        <div class="slist">
+                        <span>Register File</span>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'secretary:history' %}" class="alist">
+                        <div class="slist">
+                        <span>History</span>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'home:logout' %}" class="alist">
+                        <div class="slist">
+                        <span>Logout</span>
+                        </div>
+                    </a>
+                </div>
+        {% endif %}
+
+    <!--
+    <a href="#" class="alist">
+        <div class="slist">
+
+        <span>SSG<br>Login</span>
+    </div>
+    </a>
+    <a href="#" class="alist">
+        <div class="slist">
+        <span>Perm. Sec.<br>Login</span>
+    </div>
+    </a>
+    <a href="#" class="alist">
+    <div class="slist">
+    <span>Perm. Sec. (Political)<br>Login</span>
+    </div>
+    </a>
+    -->
+    {% else %}
+    <a href="{% url 'secretary:login' %}" class="alist">
+        <div class="slist">
+        <span>Login</span>
+        </div>
+    </a>
+    {% endif %}
+</div>
+    {% endblock %}
+

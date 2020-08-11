@@ -1,0 +1,114 @@
+{% extends 'home/base.html' %}
+    {% block body %}
+        <br/>
+        {% if user.is_authenticated %}
+
+                    <table>
+                        <tr>
+                        <th>File Details</th>
+                        </tr>
+
+                        <tr>
+                            <td>File Name </td>
+                            <td>{{ file.file_name }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>File Number</td>
+                            <td>{{ file.file_number }}</td>
+                        </tr>
+                        <tr>
+                            <td>File Date</td>
+                            <td>{{file.date_of_file}}</td>
+                        </tr>
+                        <tr>
+                            <td>Secretary's Comment:</td>
+                            <td>{{ file.comment_from_secretary }}</td>
+                        </tr>
+                        {% if not user.profile.secretary %}
+                        <tr>
+                            <td>SSG's Comment:</td>
+                            <td>{{ file.comment_from_ssg }}</td>
+                        </tr>
+                        <tr>
+                            <td>Perm. Sec's Comment:</td>
+                            <td>{{ file.comment_from_perm_sec1 }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                    <img src="{{ file.file.url }}" style="width:50%;"><br>
+<!-- comment box for ssg -->
+    {% if user.profile.ssg %}
+        {% if not file.moved_by_ssg %}
+            <form method="post" action="{% url 'secretary:comment' file.id user.id %}" enctype="multipart/form-data" id="commentform">
+            {% csrf_token %}
+            <textarea name="comment" form="commentform" placeholder="Enter comment" style="height:200px; width:200px"></textarea><br><br>
+            <input type="submit" value="Move File">
+        </form>
+        {% endif %}
+    {% endif %}
+<!-- comment box for perm sec1 -->
+    {% if user.profile.perm_sec %}
+        {% if not file.moved_by_perm_sec1 %}
+            <form method="post" action="{% url 'secretary:comment' file.id user.id %}" enctype="multipart/form-data" id="commentform1">
+            {% csrf_token %}
+            <textarea name="comment" form="commentform1" placeholder="Enter comment" style="height:200px; width:200px"></textarea><br><br>
+            <input type="submit" value="Move File">
+        </form>
+        {% endif %}
+    {% endif %}
+<!-- comment box for perm sec2 -->
+    {% if user.profile.perm_sec_political %}
+        {% if file.moved_by_ssg  and file.moved_by_perm_sec1%}
+        {% if not file.moved_by_perm_sec2 %}
+            <form method="post" action="{% url 'secretary:comment' file.id user.id %}" enctype="multipart/form-data" id="commentform2">
+            {% csrf_token %}
+            <textarea name="comment" form="commentform2" placeholder="Enter comment" style="height:200px; width:200px"></textarea><br><br>
+            <input type="submit" value="Move File">
+        </form>
+        {% endif %}
+        {% endif %}
+    {% endif %}
+    {% if not user.profile.secretary %}
+    <div class="list">
+
+                        <a href="{% url 'secretary:s_dashboard' %}" class="alist">
+                            <div class="slist">
+                            <span>Dashboard</span>
+                            </div>
+                        </a>
+
+                        <a href="{% url 'home:logout' %}" class="alist">
+                            <div class="slist">
+                            <span>Logout</span>
+                            </div>
+                        </a>
+                    </div>
+    {% endif %}
+    {% if user.profile.secretary %}
+        <div class="list">
+
+                        <a href="{% url 'secretary:upload' %}" class="alist">
+                            <div class="slist">
+                            <span>Register File</span>
+                            </div>
+                        </a>
+
+                        <a href="{% url 'secretary:s_dashboard' %}" class="alist">
+                            <div class="slist">
+                            <span>Dashboard</span>
+                            </div>
+                        </a>
+
+                        <a href="{% url 'home:logout' %}" class="alist">
+                            <div class="slist">
+                            <span>Logout</span>
+                            </div>
+                        </a>
+                    </div>
+    {% endif %}
+<!--{% if not file.moved_to_perm_sec1 %}
+{% endif %}-->
+{% endif %}
+    {% endblock %}
+
